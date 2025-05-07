@@ -175,3 +175,12 @@ cython_debug/
 
 # Ignore big data file
 data/AIDA.h5ad
+
+# Ignore imported data and models
+data_for_imputation/
+models/
+
+# Ignore files that can be reproduced
+predictions/
+results/
+figures/
