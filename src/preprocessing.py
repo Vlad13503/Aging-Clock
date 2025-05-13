@@ -47,8 +47,7 @@ def load_celltype_data(filepath, cell_type):
         columns=adata.var_names
     )
 
-    age = sub_obs["development_stage"].str.split("-", expand=True)[0].astype(int)
-    df["age"] = age
+    df["age"] = sub_obs["development_stage"].str.split("-", expand=True)[0].astype(int)
     df["donor_id"] = sub_obs["donor_id"].values
     df["cell_id"] = sub_obs.index
 

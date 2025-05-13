@@ -1,7 +1,6 @@
 import pandas as pd
 import argparse
 import os
-import anndata as ad
 from preprocessing import load_celltype_data
 
 def apply_model(cell_type, model_folder, imputation_folder, data_path, output_folder="./predictions/"):

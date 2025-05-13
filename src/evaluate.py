@@ -21,7 +21,7 @@ for fname in os.listdir(PREDICTIONS_FOLDER):
     r2 = r2_score(df["true_age"], df["predicted_age"])
 
     summary.append({
-        "cell_type": fname.replace("predictions_", "").replace(".csv", ""),
+        "cell_type": fname.replace("_predictions", "").replace(".csv", ""),
         "MAE": mae,
         "Pearson": pearson,
         "Spearman": spearman,
