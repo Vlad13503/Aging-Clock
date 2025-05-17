@@ -1,6 +1,7 @@
 import anndata as ad
 import pandas as pd
 import numpy as np
+import scipy.sparse as sp
 import os
 
 def load_celltype_data(filepath, cell_type):
@@ -18,16 +19,36 @@ def load_celltype_data(filepath, cell_type):
     if not os.path.exists(filepath):
         raise FileNotFoundError(f"File not found: {filepath}")
 
-    adata = ad.read_h5ad(filepath, backed='r')
-    cell_data = adata[adata.obs["cell_type"] == cell_type]
+    adata = ad.read_h5ad(filepath, backed="r")
 
-    df = pd.DataFrame.sparse.from_spmatrix(cell_data.X, index=cell_data.obs_names, columns=cell_data.var_names)
+    selected = adata.obs["cell_type"] == cell_type
+    indices = np.where(selected)[0]
 
-    df = df.div(df.sum(axis=1), axis=0) * 10000
-    df = df.map(np.log1p)
+    if len(indices) == 0:
+        raise ValueError(f"No cells found for type: {cell_type}")
 
-    age_series = cell_data.obs["development_stage"].str.split("-", expand=True)[0].astype(int)
-    df["age"] = age_series
-    df["donor_id"] = cell_data.obs["donor_id"].values
+    print(f"Found {len(indices)} cells of type '{cell_type}'")
+
+    sub_X = adata.X[indices]
+    sub_obs = adata.obs.iloc[indices]
+
+    row_sums = np.array(sub_X.sum(axis=1)).flatten()
+    row_sums[row_sums == 0] = 1e-12
+
+    normalizer = sp.diags(1 / row_sums)
+    X_norm = normalizer @ sub_X
+    X_norm = X_norm.multiply(10000)
+    X_log = X_norm.copy()
+    X_log.data = np.log1p(X_log.data)
+
+    df = pd.DataFrame.sparse.from_spmatrix(
+        X_log,
+        index=sub_obs.index,
+        columns=adata.var_names
+    )
+
+    df["age"] = sub_obs["development_stage"].str.split("-", expand=True)[0].astype(int)
+    df["donor_id"] = sub_obs["donor_id"].values
+    df["cell_id"] = sub_obs.index
 
     return df

@@ -173,5 +173,16 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# Ignore big data file
-data/AIDA.h5ad
+# Ignore big data files
+data/
+
+# Ignore imported data and models
+data_for_imputation/
+models/
+
+# Ignore files that can be reproduced
+predictions/
+predictions_external/
+results/
+figures/
+figures_external/
