@@ -5,8 +5,8 @@ import os
 
 sns.set(style="whitegrid")
 
-SUMMARY_DIR = "../results"
-SAVE_DIR = "../figures_external"
+SUMMARY_DIR = "../results_enhanced"
+SAVE_DIR = "../figures_external_enhanced"
 os.makedirs(SAVE_DIR, exist_ok=True)
 
 datasets = {
@@ -83,3 +83,30 @@ for name, meta in datasets.items():
     save_path = os.path.join(SAVE_DIR, meta["filename"])
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
+
+for name, meta in datasets.items():
+    if "mae" not in meta:
+        continue
+
+    path = os.path.join(SUMMARY_DIR, meta["file"])
+    df = pd.read_csv(path)
+    df = df.dropna(subset=[meta["mae"]])
+    df_sorted = df.sort_values(by=meta["mae"], ascending=True)
+
+    plt.figure(figsize=(10, max(6, len(df_sorted) * 0.3)))
+    ax = sns.barplot(
+        data=df_sorted,
+        x=meta["mae"], y="cell_type",
+        palette="Reds_r", hue="cell_type", legend=False
+    )
+    for i, mae in enumerate(df_sorted[meta["mae"]]):
+        ax.text(mae + 0.05, i, f"{mae:.2f}", va='center', ha='left', fontsize=9)
+    ax.set_title(f"{meta['title']}")
+    ax.set_xlabel("MAE")
+    ax.set_ylabel("")
+
+    plt.tight_layout()
+    save_path = os.path.join(SAVE_DIR, f"mae_{name.lower()}.png")
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    plt.close()
+

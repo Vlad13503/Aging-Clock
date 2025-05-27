@@ -179,10 +179,16 @@ data/
 # Ignore imported data and models
 data_for_imputation/
 models/
+models_enhanced/
 
 # Ignore files that can be reproduced
 predictions/
 predictions_external/
+predictions_enhanced/
+predictions_external_enhanced/
 results/
+results_enhanced/
 figures/
+figures_enhanced/
 figures_external/
+figures_external_enhanced/
