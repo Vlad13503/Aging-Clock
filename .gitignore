@@ -188,7 +188,9 @@ predictions_enhanced/
 predictions_external_enhanced/
 results/
 results_enhanced/
+paper_results/
 figures/
 figures_enhanced/
 figures_external/
 figures_external_enhanced/
+figures_comparison/
