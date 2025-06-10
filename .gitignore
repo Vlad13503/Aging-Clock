@@ -178,19 +178,27 @@ data/
 
 # Ignore imported data and models
 data_for_imputation/
+data_for_imputation_nonlinear/
 models/
 models_enhanced/
+nonlinear_models/
 
 # Ignore files that can be reproduced
 predictions/
 predictions_external/
 predictions_enhanced/
+predictions_nonlinear/
 predictions_external_enhanced/
+predictions_external_nonlinear/
 results/
 results_enhanced/
+results_nonlinear/
+results_external_nonlinear
 paper_results/
 figures/
 figures_enhanced/
+figures_nonlinear/
 figures_external/
 figures_external_enhanced/
+figures_external_nonlinear
 figures_comparison/
