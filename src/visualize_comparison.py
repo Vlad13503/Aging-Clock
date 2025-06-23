@@ -28,7 +28,7 @@ def configure_legend(ax):
     ax.legend(
         unique.values(), unique.keys(),
         bbox_to_anchor=(1.02, 1.0), loc="upper left",
-        title="Cell Type", fontsize=15, title_fontsize=15,
+        title="Cell Type", fontsize=16, title_fontsize=15,
         ncol=1, borderaxespad=0.5, labelspacing=0.6
     )
 
@@ -47,9 +47,10 @@ for _, row in df.iterrows():
     color = palette[row["cell_type"]]
     ax.scatter(row["MAE_yours"], row["MAE_paper"], color=color, label=row["cell_type"], s=60)
 
-ax.set_xlabel("MAE (Our Model)")
-ax.set_ylabel("MAE (Paper Model)")
-ax.set_title("MAE Comparison: Our Model vs Paper Model")
+ax.set_xlabel("MAE (Our Model)", fontsize=25)
+ax.set_ylabel("MAE (Paper Model)", fontsize=25)
+ax.tick_params(labelsize=20)
+ax.set_title("MAE Comparison: Our Model vs Paper Model", fontsize=27)
 configure_legend(ax)
 plt.savefig(os.path.join(output_dir, "mae_scatter_by_celltype.png"), bbox_inches="tight", dpi=300)
 plt.close()
@@ -69,9 +70,10 @@ for _, row in df.iterrows():
     color = palette[row["cell_type"]]
     ax.scatter(row["r_yours"], row["r_paper"], color=color, label=row["cell_type"], s=60)
 
-ax.set_xlabel("Pearson r (Our Model)")
-ax.set_ylabel("Pearson r (Paper Model)")
-ax.set_title("Correlation Comparison: Our Model vs Paper Model")
+ax.set_xlabel("Pearson r (Our Model)", fontsize=25)
+ax.set_ylabel("Pearson r (Paper Model)", fontsize=25)
+ax.tick_params(labelsize=20)
+ax.set_title("Correlation Comparison: Our Model vs Paper Model", fontsize=27)
 configure_legend(ax)
 plt.savefig(os.path.join(output_dir, "correlation_scatter_by_celltype.png"), bbox_inches="tight", dpi=300)
 plt.close()

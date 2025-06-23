@@ -22,25 +22,6 @@ shap_df_grouped = (
     .reset_index()
 )
 
-overall = (
-    shap_df_grouped.groupby("gene")["mean_abs_shap"]
-    .mean()
-    .sort_values(ascending=False)
-    .head(20)
-    .reset_index()
-)
-
-plt.figure(figsize=(10, 8))
-ax = sns.barplot(data=overall, x="mean_abs_shap", y="gene", palette="mako", hue="gene", legend=False)
-ax.set_title("Top 20 Genes by SHAP Importance Across All Cell Types")
-ax.set_xlabel("Mean |SHAP Value|")
-ax.set_ylabel("Gene")
-for container in ax.containers:
-    ax.bar_label(container, fmt="%.3f", label_type="edge", padding=3)
-plt.tight_layout()
-plt.savefig(os.path.join(output_fig_dir, "shap_top20_genes_overall.png"))
-plt.close()
-
 top_genes = (
     shap_df_grouped.groupby("gene")["mean_abs_shap"]
     .mean()
@@ -50,15 +31,20 @@ top_genes = (
 )
 
 pivot = shap_df_grouped[shap_df_grouped["gene"].isin(top_genes)]
-pivot = pivot.pivot(index="gene", columns="cell_type", values="mean_abs_shap")
+pivot_table = pivot.pivot(index="gene", columns="cell_type", values="mean_abs_shap")
 
-plt.figure(figsize=(14, 10))
-sns.heatmap(pivot, cmap="viridis", linewidths=0.5, linecolor="gray")
-plt.title("SHAP Importance Heatmap (Top 30 Genes × Cell Types)")
-plt.xlabel("Cell Type")
-plt.ylabel("Gene")
+pivot_table["all_cells"] = pivot_table.mean(axis=1)
+cols = ["all_cells"] + sorted([col for col in pivot_table.columns if col != "all_cells"])
+pivot_table = pivot_table[cols]
+
+plt.figure(figsize=(16, 10))
+sns.heatmap(pivot_table, cmap="viridis", linewidths=0.5, linecolor="gray", annot=True, fmt=".2f", annot_kws={"size": 10})
+plt.title("SHAP Importance Heatmap (Top 30 Genes × Cell Types)", fontsize=16)
+plt.xlabel("Cell Type", fontsize=14)
+plt.ylabel("Gene", fontsize=14)
+plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
-plt.savefig(os.path.join(output_fig_dir, "shap_heatmap_top30.png"))
+plt.savefig(os.path.join(output_fig_dir, "shap_heatmap_top30.png"), dpi=300)
 plt.close()
 
 top_n = 20

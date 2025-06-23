@@ -5,8 +5,8 @@ import os
 
 sns.set(style="whitegrid")
 
-SUMMARY_DIR = "../results_external_nonlinear"
-SAVE_DIR = "../figures_external_nonlinear"
+SUMMARY_DIR = "../results_nonlinear_enhanced"
+SAVE_DIR = "../figures_external_nonlinear_enhanced"
 os.makedirs(SAVE_DIR, exist_ok=True)
 
 datasets = {

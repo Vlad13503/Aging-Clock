@@ -6,9 +6,9 @@ import lightgbm as lgb
 from celltype_mappings import CELLTYPE_MAPPINGS
 
 DATA_FOLDER = "../data/"
-MODEL_FOLDER = "../nonlinear_models/"
+MODEL_FOLDER = "../nonlinear_models_enhanced/"
 IMPUTE_FOLDER = "../data_for_imputation_nonlinear/"
-OUTPUT_FOLDER = "../predictions_external_nonlinear/"
+OUTPUT_FOLDER = "../predictions_external_nonlinear_enhanced/"
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 def log_norm(X):
@@ -122,6 +122,7 @@ def process_dataset(dataset_name):
                 expr = df[present_genes].copy()
 
                 if missing_genes:
+                    np.random.seed(42)
                     imputed_values = {}
                     for gene in missing_genes:
                         mean = mean_row.get(gene, 0.0)

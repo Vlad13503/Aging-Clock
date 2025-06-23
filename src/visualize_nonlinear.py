@@ -3,9 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-SUMMARY_PATH = "../results_nonlinear/summary_performance.csv"
-PREDICTIONS_FOLDER = "../predictions_nonlinear/"
-OUTPUT_FOLDER = "../figures_nonlinear/"
+SUMMARY_PATH = "../results_nonlinear_enhanced/summary_performance.csv"
+PREDICTIONS_FOLDER = "../predictions_nonlinear_enhanced/"
+OUTPUT_FOLDER = "../figures_nonlinear_enhanced/"
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 summary_df = pd.read_csv(SUMMARY_PATH)
