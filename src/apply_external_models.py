@@ -5,9 +5,9 @@ import anndata as ad
 from celltype_mappings import CELLTYPE_MAPPINGS
 
 DATA_FOLDER = "../data/"
-MODEL_FOLDER = "../models/"
+MODEL_FOLDER = "../models_enhanced/"
 IMPUTE_FOLDER = "../data_for_imputation/"
-OUTPUT_FOLDER = "../predictions_external/"
+OUTPUT_FOLDER = "../predictions_external_enhanced/"
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 def log_norm(X):
@@ -145,6 +145,8 @@ def process_dataset(dataset_name):
             clock_targets = [clock_targets]
 
         df = get_expression_df(adata, cell_type, healthy_only, dataset_name)
+        if dataset_name.lower() in ["liu", "eqtl"]:
+            df["age"] = pd.to_numeric(df["age"].str.extract(r"(\d+)")[0], errors="coerce")
         if df is None or df.empty:
             continue
 

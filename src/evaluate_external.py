@@ -4,8 +4,8 @@ import numpy as np
 from scipy.stats import pearsonr, spearmanr, ttest_ind
 import glob
 
-PREDICTIONS_FOLDER = "../predictions_external/"
-OUTPUT_FOLDER = "../results"
+PREDICTIONS_FOLDER = "../predictions_external_enhanced/"
+OUTPUT_FOLDER = "../results_enhanced"
 DATASETS = ["Yoshida", "Liu", "eQTL", "Stephenson"]
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 

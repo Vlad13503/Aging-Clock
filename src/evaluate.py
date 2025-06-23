@@ -3,8 +3,8 @@ import pandas as pd
 from sklearn.metrics import mean_absolute_error, r2_score
 from scipy.stats import pearsonr, spearmanr
 
-PREDICTIONS_FOLDER = "../predictions/"
-OUTPUT_PATH = "../results/summary_performance.csv"
+PREDICTIONS_FOLDER = "../predictions_enhanced/"
+OUTPUT_PATH = "../results_enhanced/summary_performance.csv"
 os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
 
 summary = []
